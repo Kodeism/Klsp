@@ -40,6 +40,7 @@ namespace Klsp
             BoligType = boligType;
             GrundstørrelseRange = new int[2];
             BoligstørrelseRange = new int[2];
+            KøberInfo = "";
         }
     }
 
@@ -47,8 +48,6 @@ namespace Klsp
     {
         //sælgere vil have sin egen tabel (altså tabel over alle sælgere)
         //jeg er ikke helt sikker på hvad en sælger vil ha' som unikke parametre...
-        //jeg tænkte på en liste af boligere men det giver ikke regtigt mening i sql?
-        //så vil hver sælger ha' mange forign keys, og i et ER diagram vil der være en relations cirkel.
         public Sælger(string name, string efternavn, int phoneNumber, string email):base(name,efternavn,phoneNumber,email)
         {
 
@@ -98,6 +97,7 @@ namespace Klsp
             ByggeDato = byggeDato;
             GrundStørrelse = grundStørrelse;
             Ejendomsmægler = ejendomsmægler;
+            EnergiMærke = "";
             Sælger = sælger;
             Status = false;
         }
