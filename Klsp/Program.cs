@@ -1,13 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
 namespace Klsp
 {
-    public abstract class Person
+    public abstract class Kunde
     {
         public string Navn { get; set; }
         public string Efternavn { get; set; }
         public int PhoneNumber { get; set; }
         public string Email { get; set; }
-        public Person(string name, string efternavn, int phoneNumber,string email)
+        public Kunde(string name, string efternavn, int phoneNumber,string email)
         {
             Navn = name;
             Efternavn = efternavn;
@@ -16,7 +16,7 @@ namespace Klsp
         }
     }
 
-    public class Køber : Person
+    public class Køber : Kunde
     {
         //køber vil ha sin egen tabel (en tabel for alle købere/køber der har købt et hus)
         public int PrisKlasse { get; set; } 
@@ -44,7 +44,7 @@ namespace Klsp
         }
     }
 
-    public class Sælger : Person
+    public class Sælger : Kunde
     {
         //sælgere vil have sin egen tabel (altså tabel over alle sælgere)
         //jeg er ikke helt sikker på hvad en sælger vil ha' som unikke parametre...
@@ -54,7 +54,7 @@ namespace Klsp
         }
     }
 
-    public class Ejendomsmægler : Person
+    public class Ejendomsmægler : Kunde
     {
         //Ejendomsmægler vil have deres egen tabel (altså en tabel for alle ejendoms mæglere)
         public Ejendomsmægler(string name, string efternavn, int phoneNumber, string email) : base(name, efternavn, phoneNumber, email)
@@ -121,4 +121,6 @@ namespace Klsp
         }
     }
 }
+
+
 
