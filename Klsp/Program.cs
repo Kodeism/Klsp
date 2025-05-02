@@ -47,7 +47,6 @@ namespace Klsp
     public class Sælger : Kunde
     {
         //sælgere vil have sin egen tabel (altså tabel over alle sælgere)
-        //jeg er ikke helt sikker på hvad en sælger vil ha' som unikke parametre...
         public Sælger(string name, string efternavn, int phoneNumber, string email):base(name,efternavn,phoneNumber,email)
         {
 
