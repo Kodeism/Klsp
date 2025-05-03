@@ -121,7 +121,7 @@ namespace Klsp
         }
     }
     
-    public class SalgsKvitering
+    public class Salg
     {
         //salg vil have sit eget table.
         public int KøberID {  get; set; }
@@ -130,7 +130,7 @@ namespace Klsp
         //boligen (som indeholder forign keys for sælgeren og Ejendomsmægleren)
         public string Dato { get; set; }
         public int Beløb {  get; set; }
-        public SalgsKvitering(Køber køber, Bolig bolig, string dato, int beløb)
+        public Salg(Køber køber, Bolig bolig, string dato, int beløb)
         {
             KøberID = køber.KøberID;
             BoligID = bolig.BoligID;
