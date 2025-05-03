@@ -123,7 +123,9 @@ namespace Klsp
     
     public class Salg
     {
-        //salg vil have sit eget table.
+        //salg vil have sin egen table.
+        public int SalgsID { get; set; }
+        //sql via identity markatet
         public int KøberID {  get; set; }
         //hvem købte boligen
         public int BoligID { get; set; }
