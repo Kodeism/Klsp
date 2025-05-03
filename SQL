@@ -1,0 +1,53 @@
+create table Køber(
+Navn varchar(100),
+EfterNavn varchar(100),
+Email varchar(100),
+TlfNummer int,
+KøberID int identity,
+PrisKlasse int,
+SøgeOmråde varchar(200),
+BoligType varchar(100),
+KøberInfo varchar(3000),
+GrundStørrelse int,
+BoligStørrelse int);
+
+create table Sælger(
+SælgerID int identity,
+Navn varchar(100),
+EfterNavn varchar(100),
+Email varchar(100),
+TlfNummer int);
+
+create table Ejendomsmægler(
+EjendomsmæglerID int identity,
+Navn varchar(100),
+EfterNavn varchar(100),
+Email varchar(100),
+TlfNummer int);
+
+create table Bolig(
+BoligID int identity,
+Pris int,
+Adresse varchar(500),
+Type varchar(100),
+BoligAreal int,
+Værelser int,
+ByggeDato int,
+GrundStørrelse int,
+EnergiMærke varchar(2),
+EjendomsmæglerID int,
+SælgerID int,
+Status bit);
+
+Create table Salg(
+SalgsID int,
+KøberID int,
+BoligID int,
+Dato varchar(20),
+Beløb int);
+
+
+
+
+
+
