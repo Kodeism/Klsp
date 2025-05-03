@@ -1,6 +1,16 @@
 ﻿using System.ComponentModel.DataAnnotations;
 namespace Klsp
 {
+    //Dette er bare forslag til klasser. De er ikke færdige. 
+    //Kun bolig og salgskvitering indeholder forignkeys.
+    //Ejendomsmæglere, Sælgere og Købere har ikke et boligID eller nogen anden form for forignkey
+    //Da det vil skabe data redundancy hvis de alle referer til hindanden.
+        //I sql vil der være en tabel for sælgere. Den vil indeholde deres info (navn, tlfnummer osv.) og et ID.
+        //Så vil der være en tabel for købere der også indeholder deres info og ID
+        //og det samme med ejendomsmæglere.
+        //Bolig tabellen vil indeholde boligens info og ID samt sælgerens ID og ejendomsmæglerens ID.
+           //bolig og køber tabeller kan evt. begge opdeles i 2 tabeller (bolig + boligdetails) (køber + køberdetails)
+        //salgs tabellen vil indeholde info på salget (dato, beløb osv.) og ID samt et boligID og køberID. 
     public abstract class Kunde
     {
         public string Navn { get; set; }
@@ -18,19 +28,22 @@ namespace Klsp
 
     public class Køber : Kunde
     {
-        //køber vil ha sin egen tabel (en tabel for alle købere/køber der har købt et hus)
+
+        //køber vil ha sin egen tabel (en tabel for alle køberer der har købt et hus)
+        public int KøberID { get; set; }
+        //Køberns ID, (dette skulle gerne gives af sql med identity markatet)
         public int PrisKlasse { get; set; } 
-        //max pris
+        //Prisområdet de ligger i
         public string SøgeOmråde { get; set; } 
         //region, kommune, by.
         public string BoligType { get; set; }
-        //villa? landejendom?
+        //hvad leder de efter? villa? landejendom?
         public string KøberInfo { get; set; } //optional
         //info om købernes omstændigheder (børn? dyr? job? Hvis det kan hjælpe med at finde noget)
-        public int[] GrundstørrelseRange { get; set; }//optional 
-        //arr = [min, max]
-        public int[] BoligstørrelseRange { get; set; } //optional
-        //arr = [min, max]
+        public int Grundstørrelse { get; set; }//optional 
+        //Hvis de har en fornemmelse af hvor stor grunden gerne skulle være
+        public int Boligstørrelse { get; set; } //optional
+        //Hvis de har en fornemmelse af hvor stor boligen gerne skulle være
         public int Værelser { get; set; } //optional
         //Hvor mange værelser vil de have som minimum.
         public Køber(string name, string efternavn, int phoneNumber, string email, int prisKlasse, string søgeOmråde, string boligType, Ejendomsmægler kontaktPerson) :base(name,efternavn,phoneNumber,email)
@@ -38,8 +51,6 @@ namespace Klsp
             SøgeOmråde = søgeOmråde;
             PrisKlasse = prisKlasse;
             BoligType = boligType;
-            GrundstørrelseRange = new int[2];
-            BoligstørrelseRange = new int[2];
             KøberInfo = "";
         }
     }
@@ -47,6 +58,8 @@ namespace Klsp
     public class Sælger : Kunde
     {
         //sælgere vil have sin egen tabel (altså tabel over alle sælgere)
+        public int SælgerID { get; set; }
+        //Sælgerens ID, (dette skulle gerne gives af sql med identity markatet)
         public Sælger(string name, string efternavn, int phoneNumber, string email):base(name,efternavn,phoneNumber,email)
         {
 
@@ -56,6 +69,11 @@ namespace Klsp
     public class Ejendomsmægler : Kunde
     {
         //Ejendomsmægler vil have deres egen tabel (altså en tabel for alle ejendoms mæglere)
+        //Den arver fra kunde klassen da en ejendomsmægler vel også kan være en kunde
+        //hvis den ikke arvede så skulle de genregistres som en kunde hvis de ville købe eller sælge en ejendom
+        //hvilket vil give data redundancy.
+        public int EjendomsmæglerID { get; set; }
+        //Ejendomsmæglerns ID, (dette skulle gerne gives af sql med identity markatet)
         public Ejendomsmægler(string name, string efternavn, int phoneNumber, string email) : base(name, efternavn, phoneNumber, email)
         {
 
@@ -64,6 +82,8 @@ namespace Klsp
     public class Bolig
     {
         //bolig vil være en seperat tabel (altså en tabel for alle boligere)
+        public int BoligID { get; set; }
+        //Bolgiens ID (dette skulle gerne gives af sql med identity markatet)
         public int Pris { get; set; }
         //pris på boligen
         public string Adresse { get; set; }
@@ -80,9 +100,9 @@ namespace Klsp
         //det samlet areal af bolig og land
         public string EnergiMærke { get; set; } //optional
         //boligens energimærke
-        public Ejendomsmægler Ejendomsmægler { get; set; }
+        public int EjendomsmæglerID { get; set; }
         //Ejendomsmægleren der administreret boligen
-        public Sælger Sælger { get; set; }
+        public int SælgerID { get; set; }
         //sælgeren der vil sælge boligen
         public bool Status {  get; set; }
         //false = ikke solgt. true = solgt
@@ -95,26 +115,26 @@ namespace Klsp
             Værelser = værelser;
             ByggeDato = byggeDato;
             GrundStørrelse = grundStørrelse;
-            Ejendomsmægler = ejendomsmægler;
+            EjendomsmæglerID = ejendomsmægler.EjendomsmæglerID;
+            SælgerID = sælger.SælgerID;
             EnergiMærke = "";
-            Sælger = sælger;
             Status = false;
         }
     }
     
     public class SalgsKvitering
     {
-        //salg vil have sin egen table.
-        public Køber Køber {  get; set; }
+        //salg vil have sit eget table.
+        public int KøberID {  get; set; }
         //hvem købte boligen
-        public Bolig Bolig { get; set; }
+        public int BoligID { get; set; }
         //boligen (som indeholder forign keys for sælgeren og Ejendomsmægleren)
         public string Dato { get; set; }
         public int Beløb {  get; set; }
         public SalgsKvitering(Køber køber, Bolig bolig, string dato, int beløb)
         {
-            Køber = køber;
-            Bolig = bolig;
+            KøberID = køber.KøberID;
+            BoligID = bolig.BoligID;
             Dato = dato;
             Beløb = beløb;
         }
