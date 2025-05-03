@@ -15,20 +15,19 @@ namespace Klsp
     {
         public string Navn { get; set; }
         public string Efternavn { get; set; }
-        public int PhoneNumber { get; set; }
+        public int TlfNummer { get; set; }
         public string Email { get; set; }
-        public Kunde(string name, string efternavn, int phoneNumber,string email)
+        public Kunde(string navn, string efternavn, int tlfNummer,string email)
         {
-            Navn = name;
+            Navn = navn;
             Efternavn = efternavn;
-            PhoneNumber = phoneNumber;
+            TlfNummer = tlfNummer;
             Email = email;
         }
     }
 
     public class Køber : Kunde
     {
-
         //køber vil ha sin egen tabel (en tabel for alle køberer der har købt et hus)
         public int KøberID { get; set; }
         //Køberns ID, (dette skulle gerne gives af sql med identity markatet)
@@ -40,13 +39,13 @@ namespace Klsp
         //hvad leder de efter? villa? landejendom?
         public string KøberInfo { get; set; } //optional
         //info om købernes omstændigheder (børn? dyr? job? Hvis det kan hjælpe med at finde noget)
-        public int Grundstørrelse { get; set; }//optional 
+        public int GrundStørrelse { get; set; }//optional 
         //Hvis de har en fornemmelse af hvor stor grunden gerne skulle være
         public int Boligstørrelse { get; set; } //optional
         //Hvis de har en fornemmelse af hvor stor boligen gerne skulle være
         public int Værelser { get; set; } //optional
         //Hvor mange værelser vil de have som minimum.
-        public Køber(string name, string efternavn, int phoneNumber, string email, int prisKlasse, string søgeOmråde, string boligType, Ejendomsmægler kontaktPerson) :base(name,efternavn,phoneNumber,email)
+        public Køber(string navn, string efternavn, int tlfNummer, string email, int prisKlasse, string søgeOmråde, string boligType, Ejendomsmægler kontaktPerson) :base(navn,efternavn,tlfNummer,email)
         {
             SøgeOmråde = søgeOmråde;
             PrisKlasse = prisKlasse;
@@ -60,7 +59,7 @@ namespace Klsp
         //sælgere vil have sin egen tabel (altså tabel over alle sælgere)
         public int SælgerID { get; set; }
         //Sælgerens ID, (dette skulle gerne gives af sql med identity markatet)
-        public Sælger(string name, string efternavn, int phoneNumber, string email):base(name,efternavn,phoneNumber,email)
+        public Sælger(string navn, string efternavn, int tlfNummer, string email):base(navn,efternavn,tlfNummer,email)
         {
 
         }
@@ -74,7 +73,7 @@ namespace Klsp
         //hvilket vil give data redundancy.
         public int EjendomsmæglerID { get; set; }
         //Ejendomsmæglerns ID, (dette skulle gerne gives af sql med identity markatet)
-        public Ejendomsmægler(string name, string efternavn, int phoneNumber, string email) : base(name, efternavn, phoneNumber, email)
+        public Ejendomsmægler(string navn, string efternavn, int tlfNummer, string email) : base(navn, efternavn, tlfNummer, email)
         {
 
         }
